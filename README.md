@@ -16,8 +16,7 @@ AppClipCodeGenerator generate \
 
 ## Build & Run
 
-TBD
+Currently, using `Xcode`:
 
-## Demo
-
-TBD
+1. Select target in `Xcode` (`clippy`, `clippyClip`), choose "Edit Scheme" and choose the `Release` scheme.
+2. Also set the correct account under "Signing and Capabilities".
