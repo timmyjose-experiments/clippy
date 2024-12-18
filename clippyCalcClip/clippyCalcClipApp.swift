@@ -4,7 +4,8 @@ import SwiftUI
 struct clippyCalcClipApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CalculatorView()
+                .environmentObject(CalculatorView.ViewModel())
         }
     }
 }
