@@ -12,7 +12,11 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "channel": "production",
+      "autoIncrement": true,
+      "ios": {
+        "image": "sdk-51"
+      }
     }
   },
   "submit": {
