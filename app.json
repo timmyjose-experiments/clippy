@@ -31,7 +31,20 @@
       }
     },
     "plugins": [
-      "expo-build-properties"
+      "expo-build-properties",
+      [
+        "react-native-app-clip",
+        {
+          "name": "ClippyClip",
+          "nativeClipSrcRootDir": "clippyClip",
+          "bundleIdSuffix": "Clip",
+          "targetSuffix": "Clip",
+          "groupIdentifier": "group.com.timmyjose.clippy",
+          "deploymentTarget": "15.0",
+          "appleSignin": true
+        }
+      ]
     ]
   }
 }
+
