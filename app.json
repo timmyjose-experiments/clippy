@@ -13,7 +13,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.timmyjose.clippy"
+      "bundleIdentifier": "com.timmyjose.clippy",
+      "entitlements": {
+        "com.apple.developer.associated-appclip-app-identifiers": [
+          "$(AppIdentifierPrefix)com.timmyjose.clippy.Clip"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -44,7 +49,12 @@
           "appleSignin": true
         }
       ]
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/885a0837-e970-414d-b5fa-1ba7d5d6ec54"
+    }
   }
 }
-
