@@ -82,6 +82,7 @@ To run this as the Native app clip, change the configuration in `app.json` to:
       "appleSignin": true
     }
   ]
+]
 
 ```
 
