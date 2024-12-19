@@ -15,7 +15,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.timmyjose.clippy",
       "associatedDomains": [
-        "applinks:full-sheep-careful.ngrok-free.app"
+        "applinks:full-sheep-careful.ngrok-free.app",
+        "appclips:full-sheep-careful.ngrok-free.app"
       ],
       "entitlements": {
         "com.apple.developer.associated-appclip-app-identifiers": [
