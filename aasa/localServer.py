@@ -2,13 +2,12 @@ import http.server
 import socketserver
 
 class CustomRequestHandler(http.server.SimpleHTTPRequestHandler):
-    def end_headers(self):
-        # Set the correct content-type for AASA file
-        if self.path == '/.well-known/apple-app-site-association':
-            self.send_header('Content-Type', 'application/json')
-        super().end_headers()
+    def guess_type(self, path):
+        # Override the default MIME type guessing for the AASA file
+        if path.endswith('/.well-known/apple-app-site-association'):
+            return 'application/json'
+        return super().guess_type(path)
 
-# Change the directory to where your AASA file is located
 PORT = 8080
 Handler = CustomRequestHandler
 
