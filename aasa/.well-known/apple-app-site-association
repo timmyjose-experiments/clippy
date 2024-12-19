@@ -3,14 +3,14 @@
     "apps": [],
     "details": [
       {
-        "appID": "6739499546.com.timmyjose.clippy",
+        "appID": "N8XNN99644.com.timmyjose.clippy",
         "paths": ["*"]
       }
     ]
   },
   "appclips": {
     "apps": [
-      "6739499546.com.timmyjose.clippy.Clip"
+      "N8XNN99644.com.timmyjose.clippy.Clip"
     ]
   }
 }
