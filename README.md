@@ -5,13 +5,23 @@ PoC of trying to integrate an `iOS` app clip written in `Swift` with an `expo` R
 
 ```
 AppClipCodeGenerator generate \
-    --url 'https://clippy-domain.com/appclip' \
+    --url 'https://full-sheep-careful.ngrok-free.app' \
     --type cam \
     --foreground E0FF31 \
     --background 000000 \
     --output clippy-code.svg
 
 ```
+
+UPDATE:
+
+Sadly, `https://full-sheep-careful.ngrok-free.app` is apparently too big a URL for app clip codes:
+
+```
+Compressed URL too large: The compressed URL byte size exceeds supported payload size of the App Clip Code.
+```
+
+Use a QR code instead: https://www.qr-code-generator.com/
 
 
 ## Build & Run
@@ -76,3 +86,32 @@ To run this as the Native app clip, change the configuration in `app.json` to:
 ```
 
 (Note: This is the default Native app clip that is configured in `main`).
+
+## Testing in TestFlight
+
+There is an [AASA](https://developer.apple.com/documentation/xcode/supporting-associated-domains) file in the `<project-root>/aasa/.well-known` directory. Note the `Apple Team ID` in the `appID` field.
+
+```
+$ cd aasa
+$ python3 -m http.server 8080
+```
+
+Expose the local server with `nrgok` (note the use of `--domain` which uses the one free static domain that `ngrok` allows free users):
+
+```
+$ ngrok http --domain=full-sheep-careful.ngrok-free.app 8080
+```
+
+Sample output from `ngrok`:
+
+```
+Session Status                online
+Account                       zoltan.jose@gmail.com (Plan: Free)
+Update                        update available (version 3.18.4, Ctrl-U to update)
+Version                       3.15.1
+Region                        India (in)
+Web Interface                 http://127.0.0.1:4040
+Forwarding                    https://full-sheep-careful.ngrok-free.app -> http://localhost:8080
+```
+
+Test that the `AASA` file has been set up correctly using this tool: https://branch.io/resources/aasa-validator/

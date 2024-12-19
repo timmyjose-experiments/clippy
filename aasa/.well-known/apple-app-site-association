@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "6739499546.com.timmyjose.clippy",
+        "paths": ["*"]
+      }
+    ]
+  },
+  "appclips": {
+    "apps": [
+      "6739499546.com.timmyjose.clippy.Clip"
+    ]
+  }
+}
