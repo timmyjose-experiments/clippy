@@ -5,7 +5,7 @@ PoC of trying to integrate an `iOS` app clip written in `Swift` with an `expo` R
 
 ```
 AppClipCodeGenerator generate \
-    --url 'https:/fullsheepcareful.loca.lt' \
+    --url 'https://fullsheepcareful.loca.lt' \
     --type cam \
     --foreground E0FF31 \
     --background 000000 \
