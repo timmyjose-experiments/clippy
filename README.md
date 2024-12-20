@@ -1,26 +1,21 @@
 PoC of trying to integrate an `iOS` app clip written in `Swift` with an `expo` React Native app (the full app).
 
 
-## Generate App Clip Code
+## Generate App Clip Code (Local)
 
 ```
 AppClipCodeGenerator generate \
-    --url 'https://full-sheep-careful.ngrok-free.app' \
+    --url 'https:/fullsheepcareful.loca.lt' \
     --type cam \
     --foreground E0FF31 \
     --background 000000 \
     --output clippy-code.svg
 ```
 
-UPDATE:
 
-Sadly, `https://full-sheep-careful.ngrok-free.app` is apparently too big a URL for app clip codes:
+## Generate QR Code
 
-```
-Compressed URL too large: The compressed URL byte size exceeds supported payload size of the App Clip Code.
-```
-
-Use a QR code instead: https://www.qr-code-generator.com/
+Use a QR code instead: https://www.qr-code-generator.com/ with the invocation url: `https://fullsheepcareful.loca.lt`.
 
 
 ## Build & Run
@@ -35,7 +30,7 @@ Currently, using `Xcode`:
 
 There are two bundled Native app clips:
 
-1. clippyClip
+1. clippyClip (Deprecated)
 
 This is in the `<repo-root>/clippClip` directory. It is a simple "Activity Recommender" app clip adapted from: https://www.swift.org/getting-started/swiftui/
 
@@ -96,27 +91,13 @@ $ cd aasa
 $ python3 -m http.server 8080
 ```
 
-Expose the local server with `ngrok` (note the use of `--domain` which uses the one free static domain that `ngrok` allows free users):
+Install `LocalTunnel`:
 
 ```
-$ ngrok http --domain=full-sheep-careful.ngrok-free.app 8080
+$ npm install -g localtunnel
 ```
 
-Sample output from `ngrok`:
-
-```
-Session Status                online
-Account                       zoltan.jose@gmail.com (Plan: Free)
-Update                        update available (version 3.18.4, Ctrl-U to update)
-Version                       3.15.1
-Region                        India (in)
-Web Interface                 http://127.0.0.1:4040
-Forwarding                    https://full-sheep-careful.ngrok-free.app -> http://localhost:8080
-```
-
-Test that the `AASA` file has been set up correctly using this tool: https://branch.io/resources/aasa-validator/
-
-### Using LocalTunnel
+Ensure that we have a persistent subdomain (static) by passing the `--subdomain` flag:
 
 ```
  lt --port 9999 --subdomain fullsheepcareful
@@ -129,7 +110,7 @@ $ lt --port 9999 --subdomain fullsheepcareful
 your url is: https://fullsheepcareful.loca.lt
  ```
 
-Generate the App Clip Code:
+Generate the App Clip Code (optional - can use the one generated in `AppStore Connect`):
 
  ```
 AppClipCodeGenerator generate \
@@ -140,4 +121,10 @@ AppClipCodeGenerator generate \
     --output clippy-code.svg
 ```
 
-And register this URL in `AppStore Connect`, in the `Associated Domains` for the project as well.
+Validate the `AASA` and Associated Domains linking:
+
+* Check that the `Apple` CDN can pick up the `AASA` file by opening https://app-site-association.cdn-apple.com/a/v1/fullsheepcareful.loca.lt in a browser.
+* Also check using this validator: https://branch.io/resources/aasa-validator/
+  (Use the main app bundle id: `com.timmyjose.clippy`)
+
+Finally, register this URL in `AppStore Connect`, in the `Associated Domains` for the project as well.
