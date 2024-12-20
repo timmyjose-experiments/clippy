@@ -7,8 +7,6 @@ extension CalculatorView {
         @Published var activityCount = 0
         @Published var showUpgradePrompt = false
 
-        // MARK: - PROPERTIES
-        
         @Published private var calculator = Calculator()
         
         var displayText: String {
@@ -25,8 +23,6 @@ extension CalculatorView {
                 [.digit(.zero), .decimal, .equals]
             ]
         }
-        
-        // MARK: - ACTIONS
         
         func performAction(for buttonType: ButtonType) {
             switch buttonType {
@@ -51,14 +47,12 @@ extension CalculatorView {
             // update the activity count
             activityCount += 1
 
-            // some random condition to trigger the prompt to update
+            // some arbitrary condition to trigger the prompt to update
             // to the full app
-            if activityCount >= 25 {
+            if activityCount >= 10 {
                 showUpgradePrompt = true
             }
         }
-        
-        // MARK: - HELPERS
         
         /// Checks if current buttonType of type .arithmeticOperation is active
         func buttonTypeIsHighlighted(buttonType: ButtonType) -> Bool {

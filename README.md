@@ -10,7 +10,6 @@ AppClipCodeGenerator generate \
     --foreground E0FF31 \
     --background 000000 \
     --output clippy-code.svg
-
 ```
 
 UPDATE:
