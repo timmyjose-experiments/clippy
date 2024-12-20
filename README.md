@@ -96,7 +96,7 @@ $ cd aasa
 $ python3 -m http.server 8080
 ```
 
-Expose the local server with `nrgok` (note the use of `--domain` which uses the one free static domain that `ngrok` allows free users):
+Expose the local server with `ngrok` (note the use of `--domain` which uses the one free static domain that `ngrok` allows free users):
 
 ```
 $ ngrok http --domain=full-sheep-careful.ngrok-free.app 8080
@@ -115,3 +115,29 @@ Forwarding                    https://full-sheep-careful.ngrok-free.app -> http:
 ```
 
 Test that the `AASA` file has been set up correctly using this tool: https://branch.io/resources/aasa-validator/
+
+### Using LocalTunnel
+
+```
+ lt --port 9999 --subdomain fullsheepcareful
+ ```
+
+ Running it should show:
+
+ ```
+$ lt --port 9999 --subdomain fullsheepcareful
+your url is: https://fullsheepcareful.loca.lt
+ ```
+
+Generate the App Clip Code:
+
+ ```
+AppClipCodeGenerator generate \
+    --url 'https://fullsheepcareful.loca.lt' \
+    --type cam \
+    --foreground E0FF31 \
+    --background 000000 \
+    --output clippy-code.svg
+```
+
+And register this URL in `AppStore Connect`, in the `Associated Domains` for the project as well.

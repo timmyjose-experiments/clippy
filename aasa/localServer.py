@@ -8,7 +8,7 @@ class CustomRequestHandler(http.server.SimpleHTTPRequestHandler):
             return 'application/json'
         return super().guess_type(path)
 
-PORT = 8080
+PORT = 9999
 Handler = CustomRequestHandler
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
