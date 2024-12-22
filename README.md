@@ -1,65 +1,11 @@
-PoC of trying to integrate an `iOS` app clip written in `Swift` with an `expo` React Native app (the full app).
+PoC of an `iOS` app clip written in `Swift` with an `expo` React Native parent app (the full app).
 
+## Configuring the Native app clip
 
-## Generate App Clip Code (Local)
-
-```
-AppClipCodeGenerator generate \
-    --url 'https://fullsheepcareful.loca.lt' \
-    --type cam \
-    --foreground E0FF31 \
-    --background 000000 \
-    --output clippy-code.svg
-```
-
-
-## Generate QR Code
-
-Use a QR code instead: https://www.qr-code-generator.com/ with the invocation url: `https://fullsheepcareful.loca.lt`.
-
-
-## Build & Run
-
-Currently, using `Xcode`:
-
-1. Select target in `Xcode` (`clippy`, `clippyClip`), choose "Edit Scheme" and choose the `Release` scheme.
-2. Also set the correct account under "Signing and Capabilities".
-
-
-## Choosing different Native app clips for testing
-
-There are two bundled Native app clips:
-
-1. clippyClip (Deprecated)
-
-This is in the `<repo-root>/clippClip` directory. It is a simple "Activity Recommender" app clip adapted from: https://www.swift.org/getting-started/swiftui/
-
-To run this as the Native app clip, change the configuration in `app.json` to:
-
-````
-"plugins": [
-  "expo-build-properties",
-  [
-    "react-native-app-clip",
-    {
-      "name": "ClippyClip",
-      "nativeClipSrcRootDir": "clippyClip",
-      "bundleIdSuffix": "Clip",
-      "targetSuffix": "Clip",
-      "groupIdentifier": "group.com.timmyjose.clippy",
-      "deploymentTarget": "15.0",
-      "appleSignin": true
-    }
-  ]
-]
-````
-
-2. clippyCalcClip
-
-This is located in `<project-root>/clippyCalcClip` and is a more comprehensive Native app clip - a clone of the `iOS`/`macOS` `Calculator` app
+This is located in `<project-root>/clippyCalcClip` - a clone of the `iOS`/`macOS` `Calculator` app
 adaoted from: https://betterprogramming.pub/build-the-apple-calculator-in-swiftui-2fad61285dc8.
 
-To run this as the Native app clip, change the configuration in `app.json` to:
+Update `app.json` to:
 
 ```
 "plugins": [
@@ -80,18 +26,62 @@ To run this as the Native app clip, change the configuration in `app.json` to:
 
 ```
 
-(Note: This is the default Native app clip that is configured in `main`).
 
-## Testing in TestFlight
+## Build & Run
 
-There is an [AASA](https://developer.apple.com/documentation/xcode/supporting-associated-domains) file in the `<project-root>/aasa/.well-known` directory. Note the `Apple Team ID` in the `appID` field.
+### Using `Xcode`
+
+* Select target in `Xcode` (`clippy`, `clippyClip`), choose "Edit Scheme" and choose the `Release` scheme.
+* Also set the correct account under "Signing and Capabilities".
+* Launch on device (or simulator).
+
+
+## Testing 
+
+### Using Local Experience
+
+In the `iOS` device:
+
+* Go to `Settings` -> `Developer` -> `App Clips Testing`
+* Tap `Local Experiences` -> `Register Local Experience`, and then:
+  * Enter `https://fullsheepcareful.loca.lt` for the `URL Prefix`
+  * For the` Bundle Id`: `com.timmyjose.clippy.Clip`
+  * Enter suitable values for the `App Clip Card`, and save
+
+Scan the generated `App Clip Code`, `QR Code`, and it *should* launch the Native app clip.
+
+
+### Using TestFlight
+
+There is an [AASA](https://developer.apple.com/documentation/xcode/supporting-associated-domains) file in the `<project-root>/aasa/.well-known` directory. Note the `Apple Team ID` in the `appID` field:
+
+```
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "N8XNN99644.com.timmyjose.clippy",
+        "paths": ["*"]
+      }
+    ]
+  },
+  "appclips": {
+    "apps": [
+      "N8XNN99644.com.timmyjose.clippy.Clip"
+    ]
+  }
+}
+```
+
+Serve this using the bundled `localServer` `Python` script:
 
 ```
 $ cd aasa
-$ python3 -m http.server 8080
+$ python3 localServer.py
 ```
 
-Install `LocalTunnel`:
+Install `LocalTunnel` (if not already available):
 
 ```
 $ npm install -g localtunnel
@@ -121,10 +111,15 @@ AppClipCodeGenerator generate \
     --output clippy-code.svg
 ```
 
-Validate the `AASA` and Associated Domains linking:
+Generate a `QR` Code using https://www.qr-code-generator.com/ (or any other suitable resources) with the invocation url: `https://fullsheepcareful.loca.lt`.
+
+#### Validate the `AASA` and Associated Domains linking
 
 * Check that the `Apple` CDN can pick up the `AASA` file by opening https://app-site-association.cdn-apple.com/a/v1/fullsheepcareful.loca.lt in a browser.
 * Also check using this validator: https://branch.io/resources/aasa-validator/
   (Use the main app bundle id: `com.timmyjose.clippy`)
+* Finally, register this URL in `AppStore Connect`, in the `Associated Domains` for the project as well.
 
-Finally, register this URL in `AppStore Connect`, in the `Associated Domains` for the project as well.
+
+**Note**: Testing end-to-end in `TestFlight` is apparently not fully possible till the (main) app is live (i.e., published in the `App Store`).
+          Use a [Local Experience](#using-local-experience) to test locally.
