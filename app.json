@@ -19,6 +19,9 @@
         "appclips:fullsheepcareful.loca.lt"
       ],
       "entitlements": {
+        "com.apple.security.application-groups": [
+          "group.com.timmyjose.clippy"
+        ],
         "com.apple.developer.associated-appclip-app-identifiers": [
           "$(AppIdentifierPrefix)com.timmyjose.clippy.Clip"
         ]

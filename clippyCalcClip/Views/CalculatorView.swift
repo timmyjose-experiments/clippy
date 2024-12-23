@@ -37,6 +37,18 @@ struct CalculatorView: View {
         guard let activity, activity.activityType == NSUserActivityTypeBrowsingWeb else { return }
         guard let invocationURL = activity.webpageURL else { return }
         print("Invocation URL = \(invocationURL)")
+
+        // get access to UserDefaults, if possible
+         guard let sharedUserDefaults = UserDefaults(suiteName: "group.com.timmyjose.clippy") else {
+           print("Unable to get a handle to UserDefaults in App Clip")
+           return
+         }
+          
+        // store the invocation URL in the UserDefaults, if possible
+        let invocationURLStr = invocationURL.absoluteString
+        sharedUserDefaults.set(invocationURLStr, forKey: "invocationURL")
+        sharedUserDefaults.synchronize()
+        print("Saved \(invocationURLStr) to UserDefaults")
     }
 }
 
