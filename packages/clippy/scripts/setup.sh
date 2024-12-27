@@ -17,6 +17,8 @@ if [[ -z "$EAS_BUILD" ]]; then
       echo "Performing full clean build..."
       echo "Removing node_modules..."
       rm -rf node_modules
+      echo "Removing app/node_modules"
+      rm -rf ../../node_modules
       echo "Removing android and ios directories..."
       rm -rf ${ANDROID_DIR} ${IOS_DIR}
     )
@@ -24,10 +26,9 @@ if [[ -z "$EAS_BUILD" ]]; then
 yarn install
 fi
 
-yarn install
-
 # prepare the user-defaults-suite-ios module
-cd user-defaults-suite-ios && rm -rf node_modules && yarn && yarn clean && yarn prepare && cd ..
+yarn workspace user-defaults-suite-ios clean
+yarn workspace user-defaults-suite-ios prepare
 
 
 if [[ -z "$EAS_BUILD" ]]; then
