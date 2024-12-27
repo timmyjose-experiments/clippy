@@ -26,7 +26,7 @@ fi
 
 yarn install
 # prepare the user-defaults-suite-ios module
-cd user-defaults-suite-ios && yarn && yarn clean && yarn prepare && cd ..
+cd user-defaults-suite-ios && rm -rf node_modules && yarn && yarn clean && yarn prepare && cd ..
 
 if [[ ! -d "${ANDROID_DIR}" || ! -d "${IOS_DIR}" ]]; then
   echo "Missing android and/or ios directories. Performing prebuild..."
