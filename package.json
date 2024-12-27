@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "setup": "bash scripts/setup.sh",
+    "eas-build-post-install": "bash scripts/setup.sh",
     "android": "expo run:android",
     "ios": "npx pod-install && expo run:ios"
   },
