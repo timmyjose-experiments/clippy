@@ -26,11 +26,6 @@ if [[ -z "$EAS_BUILD" ]]; then
 yarn install
 fi
 
-# prepare the react-native-app-clip module
-echo "Preparing the react-native-app-clip module"
-yarn workspace react-native-app-clip clean
-yarn workspace react-native-app-clip prepare
-
 # prepare the user-defaults-suite-ios module
 echo "Preparing the UserDefaults native module..."
 yarn workspace user-defaults-suite-ios clean
