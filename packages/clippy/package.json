@@ -18,7 +18,7 @@
     "expo-updates": "~0.25.27",
     "react": "18.2.0",
     "react-native": "0.74.5",
-    "react-native-app-clip": "https://github.com/polybase/react-native-app-clip#native-app-clips",
+    "react-native-app-clip": "*",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.3.0",
     "user-defaults-suite-ios": "*"
