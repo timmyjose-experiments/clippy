@@ -1,3 +1,10 @@
+//
+//  CalculatorView.swift
+//  clippyCalcClip
+//
+//  Created by Timmy Jose on 27/12/24.
+//
+
 import SwiftUI
 import StoreKit
 

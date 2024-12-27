@@ -45,7 +45,7 @@
         "react-native-app-clip",
         {
           "name": "ClippyCalcClip",
-          "nativeClipSrcRootDir": "clippyCalcClip",
+          "nativeClipSrcRootDir": "clippyCalcClip/clippyCalcClip",
           "bundleIdSuffix": "Clip",
           "targetSuffix": "Clip",
           "groupIdentifier": "group.com.timmyjose.clippy",

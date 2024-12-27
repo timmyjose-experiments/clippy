@@ -1,3 +1,10 @@
+//
+//  CalculatorButtonStyle.swift
+//  clippyCalcClip
+//
+//  Created by Timmy Jose on 27/12/24.
+//
+
 import SwiftUI
 
 struct CalculatorButtonStyle: ButtonStyle {
@@ -19,7 +26,7 @@ struct CalculatorButtonStyle: ButtonStyle {
                         Color(white: 1.0, opacity: 0.2)
                     }
                 }
-                .clipShape(Capsule())
+                .clipShape(Rectangle())
     }
 }
 

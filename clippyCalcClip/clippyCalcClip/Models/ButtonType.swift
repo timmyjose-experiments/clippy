@@ -1,3 +1,10 @@
+//
+//  ButtonType.swift
+//  clippyCalcClip
+//
+//  Created by Timmy Jose on 27/12/24.
+//
+
 import Foundation
 import SwiftUI
 
@@ -37,7 +44,7 @@ enum ButtonType: Hashable, CustomStringConvertible {
         case .allClear, .clear, .negative, .percent:
             return Color(.lightGray)
         case .operation, .equals:
-            return .orange
+            return .blue
         case .digit, .decimal:
             return .secondary
         }
