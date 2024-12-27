@@ -14,6 +14,9 @@
     "production": {
       "channel": "production",
       "autoIncrement": true,
+      "cache": {
+        "disabled": true
+      },
       "ios": {
         "image": "sdk-51"
       }
