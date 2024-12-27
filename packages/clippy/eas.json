@@ -15,8 +15,7 @@
       "channel": "production",
       "autoIncrement": true,
       "ios": {
-        "image": "sdk-51",
-        "yarn": "1.22.22"
+        "image": "sdk-51"
       }
     }
   },
