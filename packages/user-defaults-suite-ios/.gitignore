@@ -5,6 +5,7 @@ package-lock.json
 ./android
 .vim
 .eslintrc.js
+yarn.lock
 
 # VSCode
 .vscode/
