@@ -7,12 +7,20 @@
 
 import SwiftUI
 
+enum AppViewState {
+    case helloworld
+    case holamundo
+    case calculator
+    case unknown
+}
+
 @main
 struct clippyCalcClipApp: App {
+    @State private var appViewState: AppViewState = .unknown
+    
     var body: some Scene {
         WindowGroup {
-            CalculatorView()
-                .environmentObject(CalculatorView.ViewModel())
+            ContentView(appViewState: $appViewState)
         }
     }
 }

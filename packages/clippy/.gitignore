@@ -10,6 +10,7 @@ clippy-code.svg
 clippy-qr-code.png
 default-experience-clippy-qr-code.png
 1_com.timmyjose.clippy.Clip_appclipcode_*.svg
+clippyCalcClip/clippyCalcClip.xcodeproj/xcshareddata/*
 
 # Expo
 .expo/
