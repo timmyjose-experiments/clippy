@@ -29,9 +29,22 @@
 		A061EE222D1EAD3600AA25C5 /* clippyCalcClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clippyCalcClipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A030A2A42D210F5F00D96125 /* Exceptions for "clippyCalcClip" folder in "clippyCalcClip" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A061EE072D1EAD3500AA25C5 /* clippyCalcClip */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A061EE0A2D1EAD3500AA25C5 /* clippyCalcClip */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A030A2A42D210F5F00D96125 /* Exceptions for "clippyCalcClip" folder in "clippyCalcClip" target */,
+			);
 			path = clippyCalcClip;
 			sourceTree = "<group>";
 		};
@@ -397,8 +410,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"clippyCalcClip/Preview Content\"";
 				DEVELOPMENT_TEAM = N8XNN99644;
+				DONT_GENERATE_INFOPLIST_FILE = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -426,8 +441,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"clippyCalcClip/Preview Content\"";
 				DEVELOPMENT_TEAM = N8XNN99644;
+				DONT_GENERATE_INFOPLIST_FILE = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
