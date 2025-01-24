@@ -1,0 +1,56 @@
+name: EAS / Release / Native
+on:
+  workflow_dispatch:
+    inputs:
+      skip_ios:
+        description: 'Skip iOS deployment'
+        default: false
+        type: boolean
+      skip_android:
+        description: 'Skip Android deployment'
+        default: false
+        type: boolean
+
+jobs:
+  build:
+    name: Install and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        working-directory: packages/clippy
+        run: yarn install
+
+      - name: Prepare (link) iOS UserDefaults (suite) package
+        working-directory: packages/user-defaults-suite-ios
+        run: yarn prepare
+
+      - name: Build and Submit on EAS (iOS and Android)
+        if: ${{ github.event.inputs.skip_ios != 'true' && github.event.inputs.skip_android != 'true' }}
+        working-directory: packages/clippy
+        run: EXPO_NO_CAPABILITY_SYNC=1  eas build --platform all --non-interactive --auto-submit
+
+      - name: Build and Submit on EAS (iOS)
+        if: ${{ github.event.inputs.skip_ios != 'true' && github.event.inputs.skip_android == 'true' }}
+        working-directory: packages/clippy
+        run: EXPO_NO_CAPABILITY_SYNC=1  eas build --platform ios --non-interactive --auto-submit
+
+      - name: Build and Submit on EAS (Android)
+        if: ${{ github.event.inputs.skip_android != 'true' && github.event.inputs.skip_ios == 'true' }}
+        working-directory: packages/clippy
+        run: EXPO_NO_CAPABILITY_SYNC=1  eas build --platform android --non-interactive --auto-submit
