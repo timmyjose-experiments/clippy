@@ -42,17 +42,25 @@ jobs:
         working-directory: packages/user-defaults-suite-ios
         run: npm run prepare
 
-      - name: Debug Environment
+      - name: Create dummy appclip Info.plist for npx expo-config
+        working-directory: packages/clippy
         run: |
-          echo "Node version: $(node -v)"
-          echo "npm version: $(npm -v)"
-          echo "Expo CLI version: $(npx expo --version)"
-          EXPO_DEBUG=true npx expo config --json --type introspect || echo "Command failed with exit code $?"
+          echo "Current directory: $(pwd)"
+          mkdir -p ios/ClippyClip
+          touch ios/ClippyClip/Info.plist
 
       - name: Build and Submit on EAS (iOS and Android)
         if: ${{ github.event.inputs.skip_ios != 'true' && github.event.inputs.skip_android != 'true' }}
         working-directory: packages/clippy
-        run: EXPO_NO_CAPABILITY_SYNC=1  eas build --platform all --non-interactive #--auto-submit
+        run: |
+          echo "Current directory: $(pwd)"
+          if [[ -f $(pwd)/ios/ClippyClip/Info.plist ]]; then
+            echo "Dummy Info.plist exists"
+          else
+            echo "Dummy Info.plist does not exist"
+          fi
+        
+          EXPO_NO_CAPABILITY_SYNC=1  eas build --platform all --non-interactive #--auto-submit
 
       - name: Build and Submit on EAS (iOS)
         if: ${{ github.event.inputs.skip_ios != 'true' && github.event.inputs.skip_android == 'true' }}
