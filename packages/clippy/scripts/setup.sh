@@ -27,9 +27,9 @@ yarn install
 fi
 
 # prepare the user-defaults-suite-ios module
-echo "Preparing the UserDefaults native module..."
-yarn workspace user-defaults-suite-ios clean
-yarn workspace user-defaults-suite-ios prepare
+# echo "Preparing the UserDefaults native module..."
+# yarn workspace user-defaults-suite-ios clean
+# yarn workspace user-defaults-suite-ios prepare
 
 
 if [[ -z "$EAS_BUILD" ]]; then

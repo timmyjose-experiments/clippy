@@ -17,39 +17,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          lfs: 'true'
-
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: yarn
-          cache-dependency-path: '**/yarn.lock'
+          cache: npm
+
+      - name: Configure Yarn for Public Repos
+        run: echo "always-auth false" >> ~/.yarnrc
+
+      - name: Configure NPM for Public Repos
+        run: echo "always-auth=false" >> ~/.npmrc
 
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
-          eas-version: latest
+          eas-version: "14.2.0"
           token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Clean Yarn Cache
-        run: yarn cache clean
-
-      - name: Use NPM Registry (Fallback for Yarn)
-        run: echo "registry=https://registry.npmjs.org/" > ~/.npmrc
 
       - name: Install dependencies
         working-directory: packages/clippy
-        run: yarn install --network-timeout 60000
+        run: npm install --no-audit --prefer-offline
 
       - name: Prepare (link) iOS UserDefaults (suite) package
         working-directory: packages/user-defaults-suite-ios
-        run: yarn prepare
+        run: npm run prepare
+
+      - name: Debug Environment
+        run: |
+          echo "Node version: $(node -v)"
+          echo "npm version: $(npm -v)"
+          echo "Expo CLI version: $(npx expo --version)"
+          EXPO_DEBUG=true npx expo config --json --type introspect || echo "Command failed with exit code $?"
 
       - name: Build and Submit on EAS (iOS and Android)
         if: ${{ github.event.inputs.skip_ios != 'true' && github.event.inputs.skip_android != 'true' }}
         working-directory: packages/clippy
-        run: EXPO_NO_CAPABILITY_SYNC=1  eas build --platform all --non-interactive --auto-submit
+        run: EXPO_NO_CAPABILITY_SYNC=1  eas build --platform all --non-interactive #--auto-submit
 
       - name: Build and Submit on EAS (iOS)
         if: ${{ github.event.inputs.skip_ios != 'true' && github.event.inputs.skip_android == 'true' }}

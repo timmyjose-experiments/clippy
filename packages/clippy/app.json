@@ -40,7 +40,24 @@
       }
     },
     "plugins": [
-      "expo-build-properties",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            ]
+          }, 
+            "ios": {
+            "useFrameworks": "static",
+            "deploymentTarget": "15.0"
+          }
+        }
+      ],
       [
         "react-native-app-clip",
         {
@@ -50,7 +67,7 @@
           "targetSuffix": "Clip",
           "groupIdentifier": "group.com.timmyjose.clippy",
           "deploymentTarget": "15.0",
-          "appleSignin": true
+          "appleSignin": false
         }
       ]
     ],
