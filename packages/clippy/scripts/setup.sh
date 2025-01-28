@@ -31,7 +31,7 @@ echo "Preparing the UserDefaults native module..."
 yarn workspace user-defaults-suite-ios clean
 yarn workspace user-defaults-suite-ios prepare
 
-if [[ "$EAS_BUILD"]]; then
+if [[ "$EAS_BUILD" ]]; then
   if [[ -d ${IOS_DIR} ]]; then
     echo "Deleting ios directory from CI step"
     rm -rf $IOS_DIR
