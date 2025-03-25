@@ -18,10 +18,10 @@
     "expo-updates": "~0.25.27",
     "react": "18.2.0",
     "react-native": "0.74.5",
+    "react-native-app-clip": "https://github.com/polybase/react-native-app-clip#v4.0",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.3.0",
-    "user-defaults-suite-ios": "*",
-    "react-native-app-clip": "https://github.com/polybase/react-native-app-clip#v4.0"
+    "user-defaults-suite-ios": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
@@ -40,6 +40,7 @@
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "ts-jest": "^29.1.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.1.3"
   },
   "private": true,
