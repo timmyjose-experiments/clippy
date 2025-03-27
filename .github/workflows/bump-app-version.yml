@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Checkout and EAS Update
+    name: Checkout
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,6 +19,12 @@ jobs:
           node-version: 18.x
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
+
+      - name: Ensure that we are running on `main`
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "❌ This workflow can only run on the main branch! You are on: ${GITHUB_REF#refs/heads/}"
+          exit 1
 
       - name: Validate supplied app version format
         if: ${{ github.event.inputs.app_version != '' }}
@@ -30,9 +36,9 @@ jobs:
             exit 1
           fi
 
-      - name: Install dependencies
-        working-directory: packages/clippy
-        run: yarn install --network-timeout 1000000000
+      # - name: Install dependencies
+      #   working-directory: packages/clippy
+      #   run: yarn install --network-timeout 1000000000
 
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
