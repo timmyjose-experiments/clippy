@@ -1,0 +1,79 @@
+name: Bump App Version
+on:
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: 'New app version (Major-Minor-Patch) such as: 1.7.1'
+        default: ''
+        required: false
+        type: string
+
+jobs:
+  build:
+    name: Checkout and EAS Update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+
+      - name: Validate supplied app version format
+        if: ${{ github.event.inputs.app_version != '' }}
+        run: |
+          NEW_APP_VERSION="${{ github.event.inputs.app_version }}"
+
+          if [[ ! "${NEW_APP_VERSION}" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "NEW_APP_VERSION version must be specified in Major.Minor.Patch format"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        working-directory: packages/clippy
+        run: yarn install --network-timeout 1000000000
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Determine new app version
+        id: set-app-version
+        working-directory: packages/clippy
+        run: |
+          CURRENT_APP_VERSION=$(jq -r '.version' versions.json)
+          echo "CURRENT APP VERSION: ${CURRENT_APP_VERSION}"
+
+          if [[ "${{ github.event.inputs.app_version }}" != "" ]]; then
+            NEW_APP_VERSION="${{ github.event.inputs.app_version }}"
+          else
+            IFS='.' read -r major minor patch <<<"${CURRENT_APP_VERSION}"
+            NEW_APP_VERSION="${major}.${minor}.$((patch + 1))"
+          fi
+
+          echo "NEW APP VERSION = ${NEW_APP_VERSION}"
+          echo "new_app_version=${NEW_APP_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Update versions.json with new app version
+        working-directory: packages/clippy
+        run: |
+          if [[ -z "${{ steps.set-app-version.outputs.new_app_version }}" ]]; then
+            echo "Failed to determine new app version"
+            exit 1
+          fi 
+
+          jq --arg version "${{ steps.set-app-version.outputs.new_app_version }}" '.version' versions.json > versions.temp.json
+          mv versions.temp.json versions.json
+
+      - name: Commit new app version to main
+        working-directory: packages/clippy
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add versions.json
+          git commit -m "chore: update app version to ${{ steps.set-app-version.outputs.new_app_version }}"
+          git pull --rebase origin main
+          git push 

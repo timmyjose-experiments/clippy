@@ -1,45 +1,48 @@
-{
-  "expo": {
-    "name": "clippy",
-    "slug": "clippy",
-    "version": "1.7.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
+import { ExpoConfig, ConfigContext } from 'expo/config'
+import versions from './versions.json'
+
+export default ({ config } : ConfigContext ): ExpoConfig => ({
+  ...config,
+    name: "clippy",
+    slug: "clippy",
+    version: versions.version,
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "light",
+    splash: {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.timmyjose.clippy",
-      "associatedDomains": [
+    ios: {
+      supportsTablet: true,
+      bundleIdentifier: "com.timmyjose.clippy",
+      associatedDomains: [
         "applinks:fullsheepcareful.loca.lt",
         "appclips:fullsheepcareful.loca.lt"
       ],
-      "entitlements": {
+      entitlements: {
         "com.apple.developer.associated-appclip-app-identifiers": [
           "$(AppIdentifierPrefix)com.timmyjose.clippy.Clip"
         ]
       }
     },
-    "android": {
-      "adaptiveIcon": {
+    android: {
+      adaptiveIcon: {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.timmyjose.clippy"
+      package: "com.timmyjose.clippy"
     },
-    "web": {
+    web: {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
+    extra: {
       "eas": {
         "projectId": "885a0837-e970-414d-b5fa-1ba7d5d6ec54"
       }
     },
-    "plugins": [
+    plugins: [
       [
         "expo-build-properties",
         {
@@ -70,11 +73,10 @@
         }
       ]
     ],
-    "runtimeVersion": {
+    runtimeVersion: {
       "policy": "appVersion"
     },
-    "updates": {
+    updates: {
       "url": "https://u.expo.dev/885a0837-e970-414d-b5fa-1ba7d5d6ec54"
     }
-  }
-}
+  })
