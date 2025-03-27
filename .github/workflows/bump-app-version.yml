@@ -61,7 +61,7 @@ jobs:
             exit 1
           fi 
 
-          jq --arg version "${{ steps.set-app-version.outputs.new_app_version }}" '.version = ${version}' versions.json > versions.temp.json
+          jq --arg version "${{ steps.set-app-version.outputs.new_app_version }}" '.version = $version' versions.json > versions.temp.json
           mv versions.temp.json versions.json
 
       - name: Commit new app version to main
