@@ -40,11 +40,11 @@ jobs:
       #   working-directory: packages/clippy
       #   run: yarn install --network-timeout 1000000000
 
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+      # - name: Setup Expo and EAS
+      #   uses: expo/expo-github-action@v8
+      #   with:
+      #     eas-version: latest
+      #     token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Determine new app version
         id: set-app-version
