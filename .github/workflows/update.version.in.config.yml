@@ -1,0 +1,77 @@
+name: Update App Version in config.json (showAppPayDepositMaxVersion)
+permissions:
+    contents: write
+on:
+  workflow_dispatch:
+    inputs:
+      max_app_version:
+        description: 'New max app version for config.json (Major-Minor-Patch) such as: 1.7.1'
+        default: ''
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+
+      - name: Ensure that we are running on `main`
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "❌ This workflow can only run on the main branch! You are on: ${GITHUB_REF#refs/heads/}"
+          exit 1
+
+      - name: Validate supplied app version format
+        if: ${{ github.event.inputs.max_app_version != '' }}
+        run: |
+          NEW_MAX_APP_VERSION="${{ github.event.inputs.max_app_version }}"
+
+          if [[ ! "${NEW_MAX_APP_VERSION}" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "NEW_MAX_APP_VERSION version must be specified in Major.Minor.Patch format"
+            exit 1
+          fi
+
+      - name: Determine new max app version
+        id: set-max-app-version
+        working-directory: packages/clippy/src/features/config
+        run: |
+          CURRENT_MAX_APP_VERSION=$(jq -r '.deposits.showAppPayDepositMaxVersion' config.json)
+          echo "CURRENT MAX APP VERSION: ${CURRENT_MAX_APP_VERSION}"
+
+          if [[ "${{ github.event.inputs.max_app_version }}" != "" ]]; then
+            NEW_MAX_APP_VERSION="${{ github.event.inputs.max_app_version }}"
+          else
+            echo "Max app version was not supplied"
+            exit 1
+          fi
+
+          echo "NEW MAX APP VERSION = ${NEW_MAX_APP_VERSION}"
+          echo "new_max_app_version=${NEW_MAX_APP_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Update versions.json with new app version
+        working-directory: packages/clippy/src/features/config
+        run: |
+          if [[ -z "${{ steps.set-max-app-version.outputs.new_max_app_version }}" ]]; then
+            echo "Failed to determine new max app version"
+            exit 1
+          fi 
+
+          jq --arg version "${{ steps.set-max-app-version.outputs.new_max_app_version }}" '.deposits.showAppPayDepositMaxVersion = $version' versions.json > config.temp.json
+          mv config.temp.json config.json
+
+      - name: Commit new max app version to main
+        working-directory: packages/clippy/src/features/config
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add config.json
+          git commit -m "chore: update max app pay deposit version to ${{ steps.set-max-app-version.outputs.new_max_app_version }}"
+          git pull --rebase origin main
+          git push 
