@@ -77,7 +77,7 @@ jobs:
           BRANCH_NAME="bump-app-version-${{ github.run_id }}"
           git checkout -b "$BRANCH_NAME"
 
-          git add config.json
+          git add versions.json
           git commit -m "chore: update app version to ${{ steps.set-app-version.outputs.new_app_version }}"
           git push origin "$BRANCH_NAME"
 
