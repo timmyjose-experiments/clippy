@@ -21,6 +21,7 @@ jobs:
           node-version: 18.x
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
+          token: ${{ secrets.ADMIN_PAT }}
 
       - name: Ensure that we are running on `main`
         if: github.ref != 'refs/heads/main'
@@ -64,9 +65,12 @@ jobs:
 
       - name: Commit new max app version to main
         working-directory: packages/clippy/src/features/config
+        env:
+          MERGE_BOT_TOKEN: ${[ secrets.MERGE_BOT_TOKEN ]}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${MERGE_BOT_TOKEN}@github.com/${{ github.repository }}
           git add config.json
           git commit -m "chore: update max app pay deposit version to ${{ steps.set-max-app-version.outputs.new_max_app_version }}"
           git pull --rebase origin main

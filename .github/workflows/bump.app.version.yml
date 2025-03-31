@@ -68,9 +68,12 @@ jobs:
 
       - name: Commit new app version to main
         working-directory: packages/clippy
+        env:
+          MERGE_BOT_TOKEN: ${{ secrets.MERGE_BOT_TOKEN }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${MERGE_BOT_TOKEN}@github.com/${{ github.repository }}
           git add versions.json
           git commit -m "chore: update app version to ${{ steps.set-app-version.outputs.new_app_version }}"
           git pull --rebase origin main
