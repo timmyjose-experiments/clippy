@@ -29,7 +29,6 @@ jobs:
           exit 1
 
       - name: Validate supplied app version format
-        if: ${{ github.event.inputs.max_app_version != '' }}
         run: |
           NEW_MAX_APP_VERSION="${{ github.event.inputs.max_app_version }}"
 
@@ -42,27 +41,24 @@ jobs:
         id: set-max-app-version
         working-directory: packages/clippy/src/features/config
         run: |
-          CURRENT_MAX_APP_VERSION=$(jq -r '.deposits.showAppPayDepositMaxVersion' config.json)
-          echo "CURRENT MAX APP VERSION: ${CURRENT_MAX_APP_VERSION}"
-
-          if [[ "${{ github.event.inputs.max_app_version }}" != "" ]]; then
-            NEW_MAX_APP_VERSION="${{ github.event.inputs.max_app_version }}"
-          else
-            echo "Max app version was not supplied"
-            exit 1
-          fi
-
+          NEW_MAX_APP_VERSION="${{ github.event.inputs.max_app_version }}"
           echo "NEW MAX APP VERSION = ${NEW_MAX_APP_VERSION}"
           echo "new_max_app_version=${NEW_MAX_APP_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure that the new max version is different from the current version
+        working-directory: packages/clippy/src/features/config
+        run: |
+          CURRENT_MAX_APP_VERSION=$(jq -r '.deposits.showAppPayDepositMaxVersion' config.json)
+          NEW_MAX_APP_VERSION="${{ github.event.inputs.max_app_version }}"
+
+          if [[ "$NEW_MAX_APP_VERSION" == "$CURRENT_MAX_APP_VERSION" ]]; then
+            echo " Version hasn't changed — not committing."
+            exit 1
+          fi
 
       - name: Update config.json with new app version
         working-directory: packages/clippy/src/features/config
         run: |
-          if [[ -z "${{ steps.set-max-app-version.outputs.new_max_app_version }}" ]]; then
-            echo "Failed to determine new max app version"
-            exit 1
-          fi 
-
           jq --arg version "${{ steps.set-max-app-version.outputs.new_max_app_version }}" '.deposits.showAppPayDepositMaxVersion = $version' config.json > config.temp.json
           mv config.temp.json config.json
 
