@@ -55,7 +55,7 @@ jobs:
           echo "NEW MAX APP VERSION = ${NEW_MAX_APP_VERSION}"
           echo "new_max_app_version=${NEW_MAX_APP_VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: Update versions.json with new app version
+      - name: Update config.json with new app version
         working-directory: packages/clippy/src/features/config
         run: |
           if [[ -z "${{ steps.set-max-app-version.outputs.new_max_app_version }}" ]]; then
@@ -63,7 +63,7 @@ jobs:
             exit 1
           fi 
 
-          jq --arg version "${{ steps.set-max-app-version.outputs.new_max_app_version }}" '.deposits.showAppPayDepositMaxVersion = $version' versions.json > config.temp.json
+          jq --arg version "${{ steps.set-max-app-version.outputs.new_max_app_version }}" '.deposits.showAppPayDepositMaxVersion = $version' config.json > config.temp.json
           mv config.temp.json config.json
 
       - name: Commit new max app version to main
