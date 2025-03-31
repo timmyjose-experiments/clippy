@@ -3,3 +3,4 @@ package-lock.json
 .expo
 tsconfig.json
 node_modules
+.vim
