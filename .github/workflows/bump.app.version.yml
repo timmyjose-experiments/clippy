@@ -75,7 +75,7 @@ jobs:
       - name: Create PR with new app version
         working-directory: packages/clippy
         env:
-          GH_TOKEN: ${{ secrets.MERGE_BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_DEPLOY_SECRET }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
